@@ -119,7 +119,7 @@ button:hover,
 .summary-grid {
   display: grid;
   gap: 1rem;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
 }
 
 .metric,
@@ -242,6 +242,7 @@ select:focus {
 
 .category-chart,
 .accounts-list,
+.investments-list,
 .transactions-list,
 .budget-progress {
   display: grid;
@@ -273,6 +274,7 @@ select:focus {
 }
 
 .account-row,
+.investment-row,
 .transaction-row {
   align-items: center;
   border-bottom: 1px solid var(--line);
@@ -283,19 +285,28 @@ select:focus {
 }
 
 .account-row:last-child,
+.investment-row:last-child,
 .transaction-row:last-child {
   border-bottom: 0;
 }
 
 .account-row small,
+.investment-row small,
 .transaction-row small {
   color: var(--muted);
   display: block;
   margin-top: 0.2rem;
 }
 
-.account-row input {
+.account-row input,
+.investment-row input {
   max-width: 160px;
+}
+
+.row-actions {
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
 }
 
 .transaction-amount {
@@ -370,6 +381,7 @@ dialog::backdrop {
   .topbar,
   .panel-heading,
   .account-row,
+  .investment-row,
   .transaction-row {
     align-items: stretch;
     flex-direction: column;
@@ -385,7 +397,13 @@ dialog::backdrop {
     grid-column: auto;
   }
 
-  .account-row input {
+  .account-row input,
+  .investment-row input {
     max-width: none;
+  }
+
+  .row-actions {
+    align-items: stretch;
+    flex-direction: column;
   }
 }

@@ -46,6 +46,7 @@ Desde tu iPhone, abre esa URL en Safari y usa `Compartir` > `Agregar a pantalla 
 ## Qué incluye
 
 - Balance total por cuentas.
+- Registro de inversiones separadas del dinero disponible.
 - Registro rápido de gastos, ingresos y apartados.
 - Gastos por categoría del mes.
 - Límites mensuales de gasto y ahorro.

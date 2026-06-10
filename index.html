@@ -31,32 +31,37 @@
     <main class="app-shell">
       <section class="summary-grid" aria-label="Resumen financiero">
         <article class="metric primary">
-          <span>Balance total</span>
+          <span>Patrimonio total</span>
           <strong id="totalBalance">$0</strong>
-          <small id="balanceHint">Sin cuentas registradas</small>
+          <small id="balanceHint">Cuentas + inversiones</small>
+        </article>
+        <article class="metric">
+          <span>Dinero disponible</span>
+          <strong id="availableMoney">$0</strong>
+          <small id="availableHint">En cuentas, despues de apartados</small>
+        </article>
+        <article class="metric">
+          <span>Inversiones</span>
+          <strong id="investmentTotal">$0</strong>
+          <small id="investmentHint">Dinero tuyo, no disponible hoy</small>
         </article>
         <article class="metric">
           <span>Ingresos del mes</span>
           <strong id="monthIncome">$0</strong>
-          <small id="incomeHint">Actualizado al día</small>
+          <small id="incomeHint">Actualizado al dia</small>
         </article>
         <article class="metric">
           <span>Gastos del mes</span>
           <strong id="monthExpense">$0</strong>
           <small id="expenseHint">Incluye gastos variables y fijos</small>
         </article>
-        <article class="metric">
-          <span>Disponible estimado</span>
-          <strong id="availableMoney">$0</strong>
-          <small id="availableHint">Después de apartados</small>
-        </article>
       </section>
 
       <section class="daily-panel">
         <div class="panel-heading">
           <div>
-            <p class="eyebrow">Registro rápido</p>
-            <h2>¿Qué pasó hoy?</h2>
+            <p class="eyebrow">Registro rapido</p>
+            <h2>Que paso hoy?</h2>
           </div>
           <span id="todayStatus" class="pill">Pendiente</span>
         </div>
@@ -75,7 +80,7 @@
             <input id="amountInput" type="number" min="0.01" step="0.01" placeholder="0.00" required />
           </label>
           <label>
-            Categoría
+            Categoria
             <select id="categoryInput" required></select>
           </label>
           <label>
@@ -93,7 +98,7 @@
       <section id="installHelp" class="install-help" hidden>
         <div>
           <p class="eyebrow">iPhone</p>
-          <h2>Instálala en tu pantalla de inicio</h2>
+          <h2>Instalala en tu pantalla de inicio</h2>
           <p>
             Abre esta app en Safari desde una URL segura, toca Compartir y elige
             "Agregar a pantalla de inicio". Tus datos quedan guardados en tu iPhone.
@@ -106,11 +111,11 @@
           <div class="panel-heading">
             <div>
               <p class="eyebrow">Este mes</p>
-              <h2>Gastos por categoría</h2>
+              <h2>Gastos por categoria</h2>
             </div>
             <button id="downloadCsvBtn" class="ghost small">CSV</button>
           </div>
-          <div id="categoryChart" class="category-chart empty-state">Aún no hay gastos este mes.</div>
+          <div id="categoryChart" class="category-chart empty-state">Aun no hay gastos este mes.</div>
         </article>
 
         <article class="panel">
@@ -129,34 +134,45 @@
         <article class="panel">
           <div class="panel-heading">
             <div>
-              <p class="eyebrow">Límites simples</p>
+              <p class="eyebrow">Inversiones</p>
+              <h2>Dinero invertido</h2>
+            </div>
+            <button id="addInvestmentBtn" class="ghost small">Agregar inversion</button>
+          </div>
+          <div id="investmentsList" class="investments-list"></div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Limites simples</p>
               <h2>Presupuesto mensual</h2>
             </div>
           </div>
           <form id="budgetForm" class="settings-form">
             <label>
-              Gasto máximo del mes
+              Gasto maximo del mes
               <input id="monthlyBudgetInput" type="number" min="0" step="50" />
             </label>
             <label>
               Ahorro meta del mes
               <input id="monthlySavingsGoalInput" type="number" min="0" step="50" />
             </label>
-            <button type="submit">Guardar límites</button>
+            <button type="submit">Guardar limites</button>
           </form>
           <div id="budgetProgress" class="budget-progress"></div>
         </article>
+      </section>
 
-        <article class="panel">
-          <div class="panel-heading">
-            <div>
-              <p class="eyebrow">Historial</p>
-              <h2>Movimientos recientes</h2>
-            </div>
-            <button id="clearDemoBtn" class="ghost small danger">Reiniciar</button>
+      <section class="panel">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">Historial</p>
+            <h2>Movimientos recientes</h2>
           </div>
-          <div id="transactionsList" class="transactions-list empty-state">Sin movimientos todavía.</div>
-        </article>
+          <button id="clearDemoBtn" class="ghost small danger">Reiniciar</button>
+        </div>
+        <div id="transactionsList" class="transactions-list empty-state">Sin movimientos todavia.</div>
       </section>
     </main>
 
@@ -178,6 +194,39 @@
       </form>
     </dialog>
 
+    <dialog id="investmentDialog">
+      <form id="investmentForm" method="dialog" class="dialog-card">
+        <h2>Nueva inversion</h2>
+        <label>
+          Nombre
+          <input id="investmentNameInput" type="text" maxlength="50" placeholder="Ej. CETES, GBM, Nu, crypto" required />
+        </label>
+        <label>
+          Tipo
+          <select id="investmentTypeInput" required>
+            <option value="Fondo">Fondo</option>
+            <option value="CETES">CETES</option>
+            <option value="Acciones">Acciones</option>
+            <option value="Cripto">Cripto</option>
+            <option value="Retiro">Retiro</option>
+            <option value="Otro">Otro</option>
+          </select>
+        </label>
+        <label>
+          Valor actual
+          <input id="investmentValueInput" type="number" min="0" step="0.01" value="0" required />
+        </label>
+        <label>
+          Nota
+          <input id="investmentNoteInput" type="text" maxlength="80" placeholder="Ej. vence en 28 dias, largo plazo" />
+        </label>
+        <div class="dialog-actions">
+          <button id="cancelInvestmentBtn" type="button" class="ghost">Cancelar</button>
+          <button value="save">Guardar</button>
+        </div>
+      </form>
+    </dialog>
+
     <template id="accountTemplate">
       <div class="account-row">
         <div>
@@ -185,6 +234,19 @@
           <small></small>
         </div>
         <input type="number" step="0.01" />
+      </div>
+    </template>
+
+    <template id="investmentTemplate">
+      <div class="investment-row">
+        <div>
+          <strong></strong>
+          <small></small>
+        </div>
+        <div class="row-actions">
+          <input type="number" min="0" step="0.01" />
+          <button type="button" class="ghost small danger">Eliminar</button>
+        </div>
       </div>
     </template>
 
