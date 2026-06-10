@@ -1,0 +1,391 @@
+:root {
+  --bg: #f6f7f2;
+  --panel: #ffffff;
+  --text: #1f2a24;
+  --muted: #65736a;
+  --line: #dde3dc;
+  --brand: #176b4d;
+  --brand-dark: #0e4d36;
+  --income: #157f55;
+  --expense: #b6422b;
+  --saving: #2c67a0;
+  --soft: #e9f4ee;
+  --warning: #f4c95d;
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button,
+.file-btn {
+  border: 0;
+  border-radius: 8px;
+  background: var(--brand);
+  color: #fff;
+  cursor: pointer;
+  font-weight: 700;
+  padding: 0.8rem 1rem;
+}
+
+button:hover,
+.file-btn:hover {
+  background: var(--brand-dark);
+}
+
+.ghost {
+  align-items: center;
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--text);
+  display: inline-flex;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.ghost:hover {
+  background: #eef2ed;
+}
+
+.danger {
+  color: #9e2f1f;
+}
+
+.small {
+  padding: 0.55rem 0.75rem;
+}
+
+.file-btn input {
+  display: none;
+}
+
+.topbar {
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  margin: 0 auto;
+  max-width: 1180px;
+  padding: 1.5rem 1rem 1rem;
+}
+
+.topbar h1,
+.panel h2,
+.daily-panel h2 {
+  margin: 0;
+}
+
+.top-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.eyebrow {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  margin: 0 0 0.25rem;
+  text-transform: uppercase;
+}
+
+.app-shell {
+  display: grid;
+  gap: 1rem;
+  margin: 0 auto;
+  max-width: 1180px;
+  padding: 0 1rem 2rem;
+}
+
+.summary-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.metric,
+.panel,
+.daily-panel,
+.install-help {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.install-help {
+  background: var(--soft);
+}
+
+.install-help h2,
+.install-help p {
+  margin: 0;
+}
+
+.install-help p {
+  color: var(--muted);
+  line-height: 1.5;
+  margin-top: 0.4rem;
+  max-width: 760px;
+}
+
+.metric {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.metric.primary {
+  background: var(--brand);
+  color: #fff;
+}
+
+.metric span,
+.metric small {
+  color: inherit;
+  opacity: 0.8;
+}
+
+.metric strong {
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+}
+
+.panel-heading {
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.pill {
+  background: #f7ead0;
+  border-radius: 999px;
+  color: #7a4c00;
+  font-size: 0.85rem;
+  font-weight: 800;
+  padding: 0.4rem 0.7rem;
+}
+
+.pill.done {
+  background: var(--soft);
+  color: var(--brand-dark);
+}
+
+.quick-form,
+.settings-form {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.quick-form {
+  grid-template-columns: 1fr 1fr 1.2fr 1.2fr;
+}
+
+label {
+  color: var(--muted);
+  display: grid;
+  font-size: 0.9rem;
+  font-weight: 700;
+  gap: 0.35rem;
+}
+
+input,
+select {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--text);
+  min-height: 44px;
+  padding: 0.65rem 0.75rem;
+  width: 100%;
+}
+
+input:focus,
+select:focus {
+  border-color: var(--brand);
+  box-shadow: 0 0 0 3px rgba(23, 107, 77, 0.15);
+  outline: none;
+}
+
+.wide {
+  grid-column: span 3;
+}
+
+.quick-form button {
+  align-self: end;
+}
+
+.two-column {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+
+.category-chart,
+.accounts-list,
+.transactions-list,
+.budget-progress {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.bar-row {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.bar-label {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.bar-track {
+  background: #edf0eb;
+  border-radius: 999px;
+  height: 12px;
+  overflow: hidden;
+}
+
+.bar-fill {
+  background: var(--brand);
+  border-radius: inherit;
+  height: 100%;
+}
+
+.account-row,
+.transaction-row {
+  align-items: center;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  padding: 0.75rem 0;
+}
+
+.account-row:last-child,
+.transaction-row:last-child {
+  border-bottom: 0;
+}
+
+.account-row small,
+.transaction-row small {
+  color: var(--muted);
+  display: block;
+  margin-top: 0.2rem;
+}
+
+.account-row input {
+  max-width: 160px;
+}
+
+.transaction-amount {
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.transaction-amount.income {
+  color: var(--income);
+}
+
+.transaction-amount.expense {
+  color: var(--expense);
+}
+
+.transaction-amount.saving {
+  color: var(--saving);
+}
+
+.budget-card {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0.85rem;
+}
+
+.budget-card strong {
+  display: flex;
+  justify-content: space-between;
+}
+
+.empty-state {
+  color: var(--muted);
+  padding: 1rem 0;
+}
+
+dialog {
+  border: 0;
+  border-radius: 8px;
+  padding: 0;
+  width: min(420px, calc(100vw - 2rem));
+}
+
+dialog::backdrop {
+  background: rgba(20, 30, 25, 0.35);
+}
+
+.dialog-card {
+  display: grid;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.dialog-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+}
+
+@media (max-width: 900px) {
+  .summary-grid,
+  .two-column,
+  .quick-form {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .wide {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 640px) {
+  .topbar,
+  .panel-heading,
+  .account-row,
+  .transaction-row {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .summary-grid,
+  .two-column,
+  .quick-form {
+    grid-template-columns: 1fr;
+  }
+
+  .wide {
+    grid-column: auto;
+  }
+
+  .account-row input {
+    max-width: none;
+  }
+}

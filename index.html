@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#176b4d" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Mis finanzas" />
+    <title>Finanzas personales</title>
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="icon" href="icons/icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="icons/icon-180.png" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Control diario en 5 minutos</p>
+        <h1>Mis finanzas</h1>
+      </div>
+      <div class="top-actions">
+        <button id="exportJsonBtn" class="ghost">Exportar respaldo</button>
+        <label class="ghost file-btn">
+          Importar
+          <input id="importJsonInput" type="file" accept="application/json" />
+        </label>
+      </div>
+    </header>
+
+    <main class="app-shell">
+      <section class="summary-grid" aria-label="Resumen financiero">
+        <article class="metric primary">
+          <span>Balance total</span>
+          <strong id="totalBalance">$0</strong>
+          <small id="balanceHint">Sin cuentas registradas</small>
+        </article>
+        <article class="metric">
+          <span>Ingresos del mes</span>
+          <strong id="monthIncome">$0</strong>
+          <small id="incomeHint">Actualizado al día</small>
+        </article>
+        <article class="metric">
+          <span>Gastos del mes</span>
+          <strong id="monthExpense">$0</strong>
+          <small id="expenseHint">Incluye gastos variables y fijos</small>
+        </article>
+        <article class="metric">
+          <span>Disponible estimado</span>
+          <strong id="availableMoney">$0</strong>
+          <small id="availableHint">Después de apartados</small>
+        </article>
+      </section>
+
+      <section class="daily-panel">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">Registro rápido</p>
+            <h2>¿Qué pasó hoy?</h2>
+          </div>
+          <span id="todayStatus" class="pill">Pendiente</span>
+        </div>
+
+        <form id="transactionForm" class="quick-form">
+          <label>
+            Tipo
+            <select id="typeInput" required>
+              <option value="expense">Gasto</option>
+              <option value="income">Ingreso</option>
+              <option value="saving">Apartado / ahorro</option>
+            </select>
+          </label>
+          <label>
+            Monto
+            <input id="amountInput" type="number" min="0.01" step="0.01" placeholder="0.00" required />
+          </label>
+          <label>
+            Categoría
+            <select id="categoryInput" required></select>
+          </label>
+          <label>
+            Cuenta
+            <select id="accountInput" required></select>
+          </label>
+          <label class="wide">
+            Nota
+            <input id="noteInput" type="text" maxlength="80" placeholder="Ej. comida, gasolina, pago recibido" />
+          </label>
+          <button type="submit">Agregar movimiento</button>
+        </form>
+      </section>
+
+      <section id="installHelp" class="install-help" hidden>
+        <div>
+          <p class="eyebrow">iPhone</p>
+          <h2>Instálala en tu pantalla de inicio</h2>
+          <p>
+            Abre esta app en Safari desde una URL segura, toca Compartir y elige
+            "Agregar a pantalla de inicio". Tus datos quedan guardados en tu iPhone.
+          </p>
+        </div>
+      </section>
+
+      <section class="two-column">
+        <article class="panel">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Este mes</p>
+              <h2>Gastos por categoría</h2>
+            </div>
+            <button id="downloadCsvBtn" class="ghost small">CSV</button>
+          </div>
+          <div id="categoryChart" class="category-chart empty-state">Aún no hay gastos este mes.</div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Cuentas</p>
+              <h2>Dinero disponible</h2>
+            </div>
+            <button id="addAccountBtn" class="ghost small">Agregar cuenta</button>
+          </div>
+          <div id="accountsList" class="accounts-list"></div>
+        </article>
+      </section>
+
+      <section class="two-column">
+        <article class="panel">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Límites simples</p>
+              <h2>Presupuesto mensual</h2>
+            </div>
+          </div>
+          <form id="budgetForm" class="settings-form">
+            <label>
+              Gasto máximo del mes
+              <input id="monthlyBudgetInput" type="number" min="0" step="50" />
+            </label>
+            <label>
+              Ahorro meta del mes
+              <input id="monthlySavingsGoalInput" type="number" min="0" step="50" />
+            </label>
+            <button type="submit">Guardar límites</button>
+          </form>
+          <div id="budgetProgress" class="budget-progress"></div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Historial</p>
+              <h2>Movimientos recientes</h2>
+            </div>
+            <button id="clearDemoBtn" class="ghost small danger">Reiniciar</button>
+          </div>
+          <div id="transactionsList" class="transactions-list empty-state">Sin movimientos todavía.</div>
+        </article>
+      </section>
+    </main>
+
+    <dialog id="accountDialog">
+      <form id="accountForm" method="dialog" class="dialog-card">
+        <h2>Nueva cuenta</h2>
+        <label>
+          Nombre
+          <input id="accountNameInput" type="text" maxlength="40" placeholder="Ej. BBVA, efectivo, Nu" required />
+        </label>
+        <label>
+          Balance actual
+          <input id="accountBalanceInput" type="number" step="0.01" value="0" required />
+        </label>
+        <div class="dialog-actions">
+          <button id="cancelAccountBtn" type="button" class="ghost">Cancelar</button>
+          <button value="save">Guardar</button>
+        </div>
+      </form>
+    </dialog>
+
+    <template id="accountTemplate">
+      <div class="account-row">
+        <div>
+          <strong></strong>
+          <small></small>
+        </div>
+        <input type="number" step="0.01" />
+      </div>
+    </template>
+
+    <script src="app.js"></script>
+  </body>
+</html>
